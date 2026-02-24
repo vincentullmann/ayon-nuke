@@ -96,7 +96,7 @@ class CollectNukeWrites(
             last_frame = int(nuke.root()["last_frame"].getValue())
 
         # only collect handle data for render instances
-        if instance.data["productType"] == "render":
+        if instance.data["productBaseType"] == "render":
             handle_start = instance.context.data.get("handleStart", 0)
             handle_end = instance.context.data.get("handleEnd", 0)
         else:
@@ -167,11 +167,11 @@ class CollectNukeWrites(
             render_target (str): render target
 
         """
-        product_type = instance.data["productType"]
+        product_base_type = instance.data["productBaseType"]
 
         # add targeted family to families
         render_target = instance.data["render_target"]
-        targeted_family = f"{product_type}.{render_target}"
+        targeted_family = f"{product_base_type}.{render_target}"
         instance.data["families"].append(targeted_family)
         self.log.debug(f"Appending render target to families: {targeted_family}")
 
