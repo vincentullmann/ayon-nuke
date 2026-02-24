@@ -71,7 +71,7 @@ class CollectNukeWrites(
         self._collect_expected_files(instance)
         self._collect_colorspace_data(instance)
         self._set_additional_instance_data(instance)
-        if instance.data["render_target"] in ["frames", "frames_farm"]:
+        if instance.data["render_target"] in ["farm", "frames_farm"]:
             self._add_farm_instance_data(instance)
 
     def _collect_frame_range_data(self, instance: pyblish.api.Instance) -> None:
@@ -122,8 +122,8 @@ class CollectNukeWrites(
 
         """
         node = instance.data["transientData"]["writeNode"]
-        start = instance.data["frameStart"]  # range includes handles
-        end = instance.data["frameEnd"]
+        start = instance.data["frameStartHandle"]
+        end = instance.data["frameEndHandle"]
 
         # based on the docs  `nuke.filename` accepts a frame number as an argument
         # but this did not work for me (vincent-u, 24.02.2026, Nuke 15.2)
@@ -164,7 +164,6 @@ class CollectNukeWrites(
 
         Args:
             instance (pyblish.api.Instance): pyblish instance
-            render_target (str): render target
 
         """
         product_base_type = instance.data["productBaseType"]
