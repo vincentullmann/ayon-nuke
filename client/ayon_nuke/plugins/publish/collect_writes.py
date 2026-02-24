@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import logging
 import os
+import typing
+
 import nuke
 import pyblish.api
-
 from ayon_core.pipeline import publish
 
 from ayon_nuke import api as napi
@@ -35,6 +37,9 @@ class CollectNukeWrites(
     # write node classes to collect
     write_node_classes = ["Write"]
 
+    if typing.TYPE_CHECKING:
+        log: logging.Logger
+
     def process(self, instance) -> None:
 
         # compatibility. This is mainly focused on `renders`folders which
@@ -64,9 +69,10 @@ class CollectNukeWrites(
 
         self._collect_frame_range_data(instance)
         self._collect_expected_files(instance)
+        self._collect_colorspace_data(instance)
+        self._set_additional_instance_data(instance)
         if instance.data["render_target"] in ["frames", "frames_farm"]:
             self._add_farm_instance_data(instance)
-        self._set_additional_instance_data(instance)
 
     def _collect_frame_range_data(self, instance: pyblish.api.Instance) -> None:
         """Collect frame range data.
