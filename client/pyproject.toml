@@ -1,0 +1,8 @@
+[project]
+name = "ayon-nuke"
+version = "0.4.0+dev"
+description = "AYON Nuke addon"
+requires-python = ">=3.9"
+dependencies = [
+    "types-nuke>=13.2.8.0",
+]
